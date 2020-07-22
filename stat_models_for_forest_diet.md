@@ -28,3 +28,11 @@ The R package `lavaan` is probably the best one for working with these kind of m
 ## Conditional autoregressive models (CAR models)
 
 This might be unnecessarily complex for your needs, but I did also want to bring these models to your attention. Another similar term you might see is spatial autoregressive (SAR) models. Those models allow you to specify a special type of random effect that accounts for the spatial orientation of the clusters relative to one another. The closer two clusters are, the less statistically independent they are. The `brms` package has this implemented in R. [This page has some cool examples](https://mc-stan.org/users/documentation/case-studies/icar_stan.html) where the different areas are different neighborhoods in NYC. (The language is a little technical but you can get an idea of the model from looking at the figures.)
+
+## Model selection and validation
+
+Model selection means taking multiple "candidate models" and choosing the model or models that perform the best. Usually we would want to define performance as striking the best balance between fitting the data well (describing variation in the data) but not overfitting (because then it would not be able to predict with new data points). 
+
+For model selection with the lme4 mixed models in R, I have used the [MuMIn package](https://www.rdocumentation.org/packages/MuMIn/versions/1.43.17) in the past. It looks like there is a package that came out more recently that might have a better method for model selection with the mixed models, that I haven't used yet but I have heard of people using, the [cAIC4 package](https://arxiv.org/pdf/1803.05664.pdf).
+
+As for model validation, I would really strongly encourage checking out the book [Introduction to Statistical Learning in R](http://faculty.marshall.usc.edu/gareth-james/ISL/) -- the book PDF is freely available. I worked through the entire book and it really explained a lot to me. It goes into some basic machine learning stuff, which you also might want to think about doing with your data.
