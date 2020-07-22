@@ -11,6 +11,8 @@ install.packages("openxlsx")
 library(openxlsx)
 library(tidyverse)
 
+wave3data <- read_csv('wave3data.csv')
+
 ####HISTOGRAMS####
 ##Histogram over forest cover
 qplot(wave3data$forest.ha,
@@ -35,6 +37,15 @@ qplot(wave3data$wealth.score,
       xlab = "Wealth Score (1-5)", 
       fill=I("dark blue"),
       col=I("green"))
+
+ggplot(wave3data,
+       aes(x = mhdds9, fill = sex.head)) +
+  geom_histogram(binwidth = 1)
+
+ggplot(wave3data,
+       aes(x = mhdds9, fill = wealth.index)) +
+  geom_histogram(binwidth = 1)
+
 
 ##Histogram over Forest Patches
 qplot(wave3data$forest.patches,
@@ -62,6 +73,11 @@ qplot(wave3data$education,
       fill=I("dark blue"),
       col=I("green"))
 
+
+
+
+####PLOTTING####
+
 #Group the data in equal groups
 install.packages("Hmisc")
 library(Hmisc)
@@ -85,3 +101,7 @@ wave3data$wealth.score<-as.factor(wave3data$wealth.score)
 ggplot(wave3data, aes(x=ForestCoverGroups, y=mhdds9, fill=wealth.score)) + geom_boxplot() + facet_grid(~wealth.score)+ scale_fill_brewer(palette = "RdYlGn")
 #ggplot2 - combined
 ggplot(wave3data, aes(x=ForestCoverGroups, y=mhdds9, fill=wealth.score)) + geom_boxplot() + scale_fill_brewer(palette = "RdYlGn")+xlab('Forest cover')+ylab('Dietary diversity score')
+
+####CLUSTER GROUPS####
+
+  
