@@ -28,7 +28,6 @@ qplot(wave3data$mhdds9,
       col=I("green"))
 
 #Histogram over Dietary diversity score
-##Doesn't work :(
 qplot(wave3data$wealth.score,
       geom="histogram",
       main = "Wealth of respondents", 
