@@ -6,6 +6,9 @@ library(sf)
 library(leaflet)
 
 # Pull out coordinates of each cluster from data
+# slice function to take first row from each cluster group
+# dplyr select to distinguish from select fn in raster package
+
 cluster_coords <- wave3data %>%
   group_by(cluster.id) %>%
   slice(1) %>%
