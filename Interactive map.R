@@ -4,9 +4,19 @@ install.packages("leaflet")
 library(raster)
 library(sf)
 library(leaflet)
+
+# Pull out coordinates of each cluster from data
+cluster_coords <- wave3data %>%
+  group_by(cluster.id) %>%
+  slice(1) %>%
+  dplyr::select(lat, long, forest.ha)
+
 leaflet() %>%
   addTiles() %>%
   setView(lng = 35, lat = -5, 
-          zoom = 6)
+          zoom = 6) %>%
+  addMarkers(lng = cluster_coords$long, 
+             lat = cluster_coords$lat, 
+             label = round(cluster_coords$forest.ha))
 
 
