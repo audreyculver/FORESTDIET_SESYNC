@@ -12,7 +12,7 @@ wave3data <- wave3data %>%
 dist_x_forest_model <- lmer(mhdds9 ~ forest.ha + dist.market + forest.ha:dist.market + (1 | cluster.id),
      data = wave3data)
 
-#standardized model, giving one intercept per cluster_id (same as above)
+#standardized model, giving one intercept per cluster_id with hh randomly distributed around that intercept (same as above)
 dist_x_forest_model_std <- lmer(mhdds9 ~ forest_std + distmarket_std + forest_std:distmarket_std + (1 | cluster.id),
                             data = wave3data)
 
