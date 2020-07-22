@@ -44,6 +44,14 @@ qplot(wave3data$forest.patches,
       fill=I("dark blue"),
       col=I("green"))
 
+##Histogram over Forest Patches
+qplot(wave3data$age.head,
+      geom="histogram",
+      main = "Age of head of household", 
+      xlab = "Age", 
+      fill=I("dark blue"),
+      col=I("green"))
+
 ##Histogram over Education
 wave3data$education <- as.factor(wave3data$education)
 #doesn't work
