@@ -98,14 +98,17 @@ boxplot(mhdds9 ~ ForestCoverGroups, data=wave3data,xlab = '',
 wave3data$wealth.score<-as.factor(wave3data$wealth.score)
 
 #ggplot
-ggplot(wave3data, aes(x=ForestCoverGroups, y=mhdds9, fill=wealth.score)) + geom_boxplot() + facet_grid(~wealth.score)+ scale_fill_brewer(palette = "RdYlGn")
+ggplot(wave3data, aes(x=ForestCoverGroups, y=mhdds9, fill=wealth.score)) + geom_boxplot() + 
+facet_grid(~wealth.score)+ scale_fill_brewer(palette = "RdYlGn")
 #ggplot2 - combined
-ggplot(wave3data, aes(x=ForestCoverGroups, y=mhdds9, fill=wealth.score)) + geom_boxplot() + scale_fill_brewer(palette = "RdYlGn")+xlab('Forest cover')+ylab('Dietary diversity score')
+ggplot(wave3data, aes(x=ForestCoverGroups, y=mhdds9, fill=wealth.score)) + geom_boxplot() + 
+scale_fill_brewer(palette = "RdYlGn")+xlab('Forest cover')+ylab('Dietary diversity score')
 
 ## EV BOXPLOTS
 
 #DDScores for different Forest Cover Levels, grouped by Wealth Index
-ggplot(wave3data, aes(x=wealth.index, y = mhdds9, fill = ForestCoverGroups)) + geom_boxplot() + scale_fill_brewer(palette = "RdYlGn")+xlab('Wealth Index') + ylab('Diet Diversity Score')
+ggplot(wave3data, aes(x=wealth.index, y = mhdds9, fill = ForestCoverGroups)) + 
+  geom_boxplot() + scale_fill_brewer(palette = "RdYlGn")+xlab('Wealth Index') + ylab('Diet Diversity Score')
 
 #Create equal groups for Distance to Market
 install.packages("Hmisc")
@@ -114,8 +117,10 @@ wave3data$MarketDistanceGroups <- cut2(wave3data$dist.market, g=4)
 count(wave3data, MarketDistanceGroups)
 levels(wave3data$MarketDistanceGroups)<-c("short distance", "medium distance", "long distance", "very long distance" )
 
-#DDScores for different Forest Cover Levels, grouped by Distance to Market
-ggplot(wave3data, aes(x=MarketDistanceGroups, y = mhdds9, fill = ForestCoverGroups)) + geom_boxplot() + scale_fill_brewer(palette = "RdYlGn")+xlab('Market Distance') + ylab('Diet Diversity Score')
+#DDScores for different Forest Cover Levels, grouped by Distance to Market (means in blue)
+ggplot(wave3data, aes(x=MarketDistanceGroups, y = mhdds9, fill = ForestCoverGroups)) + 
+geom_boxplot() + stat_summary(geom = 'point', fun = mean, color = 'blue', position = position_dodge(width = 0.75)) +
+scale_fill_brewer(palette = "RdYlGn")+xlab('Market Distance') + ylab('Diet Diversity Score')
 
 ####CLUSTER GROUPS####
 
