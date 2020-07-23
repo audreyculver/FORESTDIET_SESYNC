@@ -49,7 +49,8 @@ leaflet() %>%
              lat = cluster_coords$lat, 
              label = round(cluster_coords$forest.ha),
              popup = content,
-             clusterOptions = markerClusterOptions())
+             clusterOptions = markerClusterOptions(),
+             color = vec_colors)
 
 #^^this code will generate map with icons that cluster as you zoom out, pop up with cluster info
 
@@ -77,4 +78,4 @@ for (i in 1: length(ClusterData$WealthGroup)) {
   ClusterData$color[i] <- vec_colors[min(which(vec_breaksC > ClusterData$WealthGroup[i])) -1]
 }
 
-warnings()
+
