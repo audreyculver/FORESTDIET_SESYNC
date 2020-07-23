@@ -49,6 +49,8 @@ leaflet() %>%
              popup = content,
              clusterOptions = markerClusterOptions())
 
+#^^this code will generate map with icons that cluster as you zoom out, pop up with cluster info
+
 ####GreenLeaves####
 greenLeafIcon <- makeIcon(
   iconUrl = "http://leafletjs.com/examples/custom-icons/leaf-green.png",
