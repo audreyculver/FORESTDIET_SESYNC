@@ -23,24 +23,13 @@ cluster_coords <- wave3data %>%
   slice(1) %>%
   dplyr::select(lat, long, forest.ha)
 
-####GreenLeaves####
-greenLeafIcon <- makeIcon(
-  iconUrl = "http://leafletjs.com/examples/custom-icons/leaf-green.png",
-  iconWidth = 38, iconHeight = 45,
-  iconAnchorX = 22, iconAnchorY = 45,
-  shadowUrl = "http://leafletjs.com/examples/custom-icons/leaf-shadow.png",
-  shadowWidth = 50, shadowHeight = 64,
-  shadowAnchorX = 4, shadowAnchorY = 62
-)
 
-leaflet(data = quakes[1:4,]) %>% addTiles() %>%
-  addMarkers(~cluster_coords$long, ~cluster_coords$lat, icon = greenLeafIcon)
+####creating cluster dataset####
 
-####content of markers#####
-content <- paste(sep="", "Average wealth score ", round(ClusterData$MeanWealth,digits = 2), "<br>", 
-                 "Average distance to market ", round(ClusterData$MeanMarketDistance, digits = 2), "<br>",
-                  "Number of households ", ClusterData$countclusters ) 
-              
+library(dplyr)
+ClusterData <- data %>%
+  group_by(cluster.id) %>%
+  dplyr::summarise(MeanWealth=mean(wealth.score), MeanMarketDistance=mean(dist.market), countclusters=n())
 
 #####add markers####
 leaflet() %>%
@@ -54,13 +43,25 @@ leaflet() %>%
              popup = content,
              clusterOptions = markerClusterOptions())
 
+####GreenLeaves####
+greenLeafIcon <- makeIcon(
+  iconUrl = "http://leafletjs.com/examples/custom-icons/leaf-green.png",
+  iconWidth = 38, iconHeight = 45,
+  iconAnchorX = 22, iconAnchorY = 45,
+  shadowUrl = "http://leafletjs.com/examples/custom-icons/leaf-shadow.png",
+  shadowWidth = 50, shadowHeight = 64,
+  shadowAnchorX = 4, shadowAnchorY = 62
+)
 
-####creating cluster dataset####
+leaflet(data = quakes[1:4,]) %>% addTiles() %>%
+  addMarkers(~cluster_coords$long, ~cluster_coords$lat, icon = greenLeafIcon)
 
-library(dplyr)
-ClusterData <- data %>%
-  group_by(cluster.id) %>%
-  dplyr::summarise(MeanWealth=mean(wealth.score), MeanMarketDistance=mean(dist.market), countclusters=n())
+
+####content of markers#####
+content <- paste(sep="", "Average wealth score ", round(ClusterData$MeanWealth,digits = 2), "<br>", 
+                 "Average distance to market ", round(ClusterData$MeanMarketDistance, digits = 2), "<br>",
+                 "Number of households ", ClusterData$countclusters )
+
 
 ####add colors####
 vec_breaksC <- c(0,2,4, Inf)
