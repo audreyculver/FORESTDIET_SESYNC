@@ -78,4 +78,38 @@ leaflet() %>%
 
 #^^this code will generate map with icons that cluster as you zoom out, pop up with cluster info
 
+#### Below is Quentin's attempt to modify code from https://rstudio.github.io/leaflet/showhide.html
+#### to have a menu to show different layers for the different coloring types.
 
+# palette going from yellow to green to show amt of forest
+forest_palette <- colorQuantile("YlGn", ClusterData$ForestCover)
+
+
+threelayermap <- leaflet() %>%
+  addTiles(group = 'base map') %>%
+  setView(lng = 35, lat = -5, 
+          zoom = 6) %>%
+  addCircleMarkers(lng = cluster_coords$long, 
+                   lat = cluster_coords$lat, 
+                   label = round(cluster_coords$forest.ha),
+                   popup = content,
+                   clusterOptions = markerClusterOptions(),
+                   fillColor = ClusterData$color, 
+                   color = NA,
+                   group = 'Colored by wealth') %>%
+  addCircleMarkers(lng = cluster_coords$long, 
+                   lat = cluster_coords$lat, 
+                   label = round(cluster_coords$forest.ha),
+                   popup = content,
+                   clusterOptions = markerClusterOptions(),
+                   color = NA,
+                   fillColor = forest_palette(ClusterData$ForestCover), 
+                   group = 'Colored by forest cover') %>%
+  addLayersControl(
+    baseGroups = c("base map"),
+    overlayGroups = c("Colored by wealth", "Colored by forest cover"),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+
+
+threelayermap
