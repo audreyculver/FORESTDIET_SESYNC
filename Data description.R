@@ -122,6 +122,13 @@ ggplot(wave3data, aes(x=MarketDistanceGroups, y = mhdds9, fill = ForestCoverGrou
 geom_boxplot() + stat_summary(geom = 'point', fun = mean, color = 'blue', position = position_dodge(width = 0.75)) +
 scale_fill_brewer(palette = "RdYlGn")+xlab('Market Distance') + ylab('Diet Diversity Score')
 
-####CLUSTER GROUPS####
+#Group the data in equal groups
+install.packages("Hmisc")
+library(Hmisc)
+data$DDSgroups <- cut2(data$mhdds9, g=4)
+count(data, DDSgroups)
+
+#new group names
+levels(data$DDSgroups)<-c("very low DDS", "low DDS", "medium DDS", "high DDS" )
 
 
