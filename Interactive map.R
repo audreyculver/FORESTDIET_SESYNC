@@ -37,7 +37,10 @@ leaflet(data = quakes[1:4,]) %>% addTiles() %>%
   addMarkers(~cluster_coords$long, ~cluster_coords$lat, icon = greenLeafIcon)
 
 ####content of markers#####
-content <- paste(sep="", "Average wealth score ", round(ClusterData$MeanWealth,digits = 2), "<br>", "Average distance to market ", round(ClusterData$MeanMarketDistance, digits = 2)) 
+content <- paste(sep="", "Average wealth score ", round(ClusterData$MeanWealth,digits = 2), "<br>", 
+                 "Average distance to market ", round(ClusterData$MeanMarketDistance, digits = 2), "<br>",
+                  "Number of households ", ClusterData$countclusters ) 
+              
 
 #####add markers####
 leaflet() %>%
