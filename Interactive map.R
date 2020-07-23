@@ -21,5 +21,3 @@ leaflet() %>%
   addMarkers(lng = cluster_coords$long, 
              lat = cluster_coords$lat, 
              label = round(cluster_coords$forest.ha))
-
-
