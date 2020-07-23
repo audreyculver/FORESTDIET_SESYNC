@@ -13,16 +13,21 @@ data <- read.csv("wave3data.csv")
 help(leaflet)
 
 # Pull out coordinates of each cluster from data
-cluster_coords <- data %>%
+
+# slice function to take first row from each cluster group
+# dplyr select to distinguish from select fn in raster package
+
+cluster_coords <- wave3data %>%
+
   group_by(cluster.id) %>%
   slice(1) %>%
   dplyr::select(lat, long, forest.ha)
 
-#GreenLeaves
+####GreenLeaves####
 greenLeafIcon <- makeIcon(
   iconUrl = "http://leafletjs.com/examples/custom-icons/leaf-green.png",
-  iconWidth = 38, iconHeight = 95,
-  iconAnchorX = 22, iconAnchorY = 94,
+  iconWidth = 38, iconHeight = 45,
+  iconAnchorX = 22, iconAnchorY = 45,
   shadowUrl = "http://leafletjs.com/examples/custom-icons/leaf-shadow.png",
   shadowWidth = 50, shadowHeight = 64,
   shadowAnchorX = 4, shadowAnchorY = 62
@@ -31,7 +36,10 @@ greenLeafIcon <- makeIcon(
 leaflet(data = quakes[1:4,]) %>% addTiles() %>%
   addMarkers(~cluster_coords$long, ~cluster_coords$lat, icon = greenLeafIcon)
 
+####content of markers#####
+content <- paste(sep="", "Average wealth score ", round(ClusterData$MeanWealth,digits = 2), "<br>", "Average distance to market ", round(ClusterData$MeanMarketDistance, digits = 2)) 
 
+#####add markers####
 leaflet() %>%
   addTiles() %>%
   setView(lng = 35, lat = -5, 
@@ -40,7 +48,24 @@ leaflet() %>%
              lat = cluster_coords$lat, 
              icon = greenLeafIcon,
              label = round(cluster_coords$forest.ha),
+             popup = content,
              clusterOptions = markerClusterOptions())
 
 
-           
+####creating cluster dataset####
+
+library(dplyr)
+ClusterData <- data %>%
+  group_by(cluster.id) %>%
+  dplyr::summarise(MeanWealth=mean(wealth.score), MeanMarketDistance=mean(dist.market), countclusters=n())
+
+####add colors####
+vec_breaksC <- c(0,2,4, Inf)
+vec_colors <- c("#000000", "#cc9900", "#669900")
+
+ClusterData$WealthGroup <- ClusterData$MeanWealth
+for (i in 1: length(ClusterData$WealthGroup)) {
+  ClusterData$color[i] <- vec_colors[min(which(vec_breaksC > ClusterData$WealthGroup[i])) -1]
+}
+
+warnings()
