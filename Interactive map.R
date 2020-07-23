@@ -29,12 +29,15 @@ cluster_coords <- wave3data %>%
 library(dplyr)
 ClusterData <- data %>%
   group_by(cluster.id) %>%
-  dplyr::summarise(MeanWealth=mean(wealth.score), MeanMarketDistance=mean(dist.market), countclusters=n())
+  dplyr::summarise(MeanWealth=mean(wealth.score), MeanMarketDistance=mean(dist.market), countclusters=n(),
+                   MeanDDS=mean(mhdds9), ForestCover=mean(forest.ha))
 
 ####content of markers#####
-content <- paste(sep="", "Average wealth score ", round(ClusterData$MeanWealth,digits = 2), "<br>", 
-                 "Average distance to market ", round(ClusterData$MeanMarketDistance, digits = 2), "<br>",
-                 "Number of households ", ClusterData$countclusters )
+content <- paste(sep="", "CLUSTER INFORMATION", "<br>", "Average wealth score: ", round(ClusterData$MeanWealth,digits = 1), "<br>", 
+                 "Average distance to market (km): ", round(ClusterData$MeanMarketDistance, digits = 1), "<br>",
+                 "Number of households: ", ClusterData$countclusters, "<br>",
+                 "Average dietary diversity score: ", round(ClusterData$MeanDDS,digits = 1), "<br>",
+                 "Forest Cover (ha): ", round(ClusterData$ForestCover, digits = 1))
 
 
 #####add markers####
@@ -42,9 +45,8 @@ leaflet() %>%
   addTiles() %>%
   setView(lng = 35, lat = -5, 
           zoom = 6) %>%
-  addMarkers(lng = cluster_coords$long, 
+  addCircleMarkers(lng = cluster_coords$long, 
              lat = cluster_coords$lat, 
-             icon = greenLeafIcon,
              label = round(cluster_coords$forest.ha),
              popup = content,
              clusterOptions = markerClusterOptions())
@@ -64,7 +66,7 @@ greenLeafIcon <- makeIcon(
 leaflet(data = quakes[1:4,]) %>% addTiles() %>%
   addMarkers(~cluster_coords$long, ~cluster_coords$lat, icon = greenLeafIcon)
 
-
+rm(greenLeafIcon)
 
 ####add colors####
 vec_breaksC <- c(0,2,4, Inf)
