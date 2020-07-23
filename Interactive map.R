@@ -69,7 +69,7 @@ leaflet(data = quakes[1:4,]) %>% addTiles() %>%
 
 rm(greenLeafIcon)
 
-####add colors####
+####add colors to wealth groups####
 vec_breaksC <- c(0,2,4, Inf)
 vec_colors <- c("#de2d26", "#fa9fb5", "#c51b8a")
 
@@ -78,21 +78,28 @@ for (i in 1: length(ClusterData$WealthGroup)) {
   ClusterData$color[i] <- vec_colors[min(which(vec_breaksC > ClusterData$WealthGroup[i])) -1]
 }
 
+####add colors to forest cover groupss####
 ##Add forest cover groups
 #Group the data in equal groups
 install.packages("Hmisc")
 library(Hmisc)
-ClusterData$ForestCoverGroups <- cut2(data$forest.ha, g=4)
+ClusterData$ForestCoverGroups <- cut2(ClusterData$ForestCover, g=4)
 count(ClusterData, ForestCoverGroups)
 
 #new group names
-levels(data$ForestCoverGroups)<-c("very low cover", "low cover", "medium cover", "high cover" )
 
+levels(ClusterData$ForestCoverGroups)<-c("very low cover", "low cover", "medium cover", "high cover" )
+
+
+vec_colorsfc <- c("#edf8e9", "#bae4b3", "#74c476", "#238b45")
+
+
+####add colors to DDS groupss####
 ##Add DDS groups
 #Group the data in equal groups
-ClusterData$mDDSgroups <- cut2(ClusterData$meanDDS, g=4)
-count(data, mDDSgroups)
+ClusterData$DDSgroups <- cut2(ClusterData$MeanDDS, g=4)
+count(data, DDSgroups)
 
 #new group names
-levels(data$DDSgroups)<-c("very low DDS", "low DDS", "medium DDS", "high DDS" )
+levels(ClusterData$DDSgroups)<-c("very low DDS", "low DDS", "medium DDS", "high DDS" )
 
