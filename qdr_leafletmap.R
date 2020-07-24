@@ -84,6 +84,8 @@ leaflet() %>%
 # palette going from yellow to green to show amt of forest
 forest_palette <- colorQuantile("YlGn", ClusterData$ForestCover)
 
+# palette going from blue to dark blue to show amt of dds
+dds_palette <- colorQuantile("Blues", ClusterData$MeanDDS)
 
 threelayermap <- leaflet() %>%
   addTiles(group = 'base map') %>%
@@ -105,9 +107,17 @@ threelayermap <- leaflet() %>%
                    color = NA,
                    fillColor = forest_palette(ClusterData$ForestCover), 
                    group = 'Colored by forest cover') %>%
+  addCircleMarkers(lng = cluster_coords$long, 
+                   lat = cluster_coords$lat, 
+                   label = round(cluster_coords$forest.ha),
+                   popup = content,
+                   clusterOptions = markerClusterOptions(),
+                   color = NA,
+                   fillColor = dds_palette(ClusterData$MeanDDS), 
+                   group = 'Colored by DDS') %>%
   addLayersControl(
     baseGroups = c("base map"),
-    overlayGroups = c("Colored by wealth", "Colored by forest cover"),
+    overlayGroups = c("Colored by wealth", "Colored by forest cover", "Colored by DDS"),
     options = layersControlOptions(collapsed = FALSE)
   )
 
