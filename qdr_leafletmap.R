@@ -26,7 +26,7 @@ cluster_coords <- data %>%
 ClusterData <- data %>%
   group_by(cluster.id) %>%
   dplyr::summarise(MeanWealth=mean(wealth.score), MeanMarketDistance=mean(dist.market), countclusters=n(),
-                   MeanDDS=mean(mhdds9), ForestCover=mean(forest.ha))
+                   MeanDDS=mean(mhdds9), ForestCover=mean(forest.ha), ForestPatches=mean(forest.patches))
 
 
 ClusterData$WealthGroup <- ClusterData$MeanWealth
@@ -55,15 +55,16 @@ levels(ClusterData$mDDSgroups)<-c("very low DDS", "low DDS", "medium DDS", "high
 
 
 ####content of markers#####
-content <- paste(sep="", "CLUSTER INFORMATION", "<br>", "Average wealth score: ", round(ClusterData$MeanWealth,digits = 1), "<br>", 
-                 "Average distance to market (km): ", round(ClusterData$MeanMarketDistance, digits = 1), "<br>",
-                 "Number of households: ", ClusterData$countclusters, "<br>",
+content <- paste(sep="", "CLUSTER INFORMATION", "<br>", 
                  "Average dietary diversity score: ", round(ClusterData$MeanDDS,digits = 1), "<br>",
-                 "Forest Cover (ha): ", round(ClusterData$ForestCover, digits = 1))
+                 "Forest Cover (ha): ", round(ClusterData$ForestCover, digits = 1), "<br>", 
+                 "Forest patches: ", ClusterData$ForestPatches, "<br>",
+                 "Average wealth score: ", round(ClusterData$MeanWealth,digits = 1), "<br>", 
+                 "Average distance to market (km): ", round(ClusterData$MeanMarketDistance, digits = 1), "<br>",
+                 "Number of households: ", ClusterData$countclusters, "<br>")
 
-
-
-
+                
+                
 #####add markers####
 leaflet() %>%
   addTiles() %>%
