@@ -56,8 +56,9 @@ ggplot(wave3data, aes(x = MarketDistanceGroups, y = mhdds9, fill = ForestCoverGr
 
 #DDScores for different market distance groups, faceted by Forest Cover
 ggplot(wave3data, aes(x = MarketDistanceGroups, y = mhdds9, fill = ForestCoverGroups3)) + geom_boxplot() + 
-  xlab('Market Distance') + ylab('Diet Diversity Score') + facet_wrap( ~ ForestCoverGroups3) + scale_fill_brewer(palette = 'Greens') + ggtitle('Dietary Diversity by Market Distance for Different Levels of Forest Cover')
+  xlab('Market Distance') + ylab('Diet Diversity Score') + facet_wrap( ~ ForestCoverGroups3) + scale_fill_brewer(palette = 'Greens') + ggtitle('Dietary Diversity by Market Distance for Different Levels of Forest Cover') + stat_summary(geom = 'point', fun = mean, color = 'blue', position = position_dodge(width = 0.75))
 
 #DDScores for different wealth groups, faceted by Forest Cover
 ggplot(wave3data, aes(x = wealth.index, y = mhdds9, fill = ForestCoverGroups3)) + geom_boxplot() + 
-  xlab('Wealth Index') + ylab('Diet Diversity Score') + facet_wrap( ~ ForestCoverGroups3) + scale_fill_brewer(palette = 'Greens') + ggtitle('Dietary Diversity by Wealth Index for Different Levels of Forest Cover')
+  xlab('Wealth Index') + ylab('Diet Diversity Score') + facet_wrap( ~ ForestCoverGroups3) + scale_fill_brewer(palette = 'Greens') + ggtitle('Dietary Diversity by Wealth Index for Different Levels of Forest Cover') + stat_summary(geom = 'point', fun = mean, color = 'blue', position = position_dodge(width = 0.75))
+›
