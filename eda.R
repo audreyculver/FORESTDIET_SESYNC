@@ -18,6 +18,9 @@ ggplot(wave3data, aes(x = age.head)) +
 ggplot(wave3data, aes(x = wealth.score)) +
   geom_bar()
 
+ggplot(wave3data, aes(x = education)) +
+  geom_bar()
+
 # Double variable relationships
 ggplot(wave3data, aes(y= wealth.score, x = age.head)) +
   geom_boxplot()
